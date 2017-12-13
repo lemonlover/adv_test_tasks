@@ -24,6 +24,20 @@ function convertToTreeView($list)
     return $result;
 }
 
+function convertToFlatView($value, $prefix = null)
+{
+	if (is_array($value)) {
+		$result = array();
+		foreach ($value as $key => $val) {
+			$prf = ($prefix) ? $prefix . "." . $key : $key;
+			$leafs = convertToFlatView($val, $prf);
+			$result = array_merge($result, $leafs);
+		}
+		return $result;
+	}
+	return array($prefix => $value);
+}
+
 function createBranch($list, $value)
 {
     if ($list) {
